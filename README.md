@@ -14,13 +14,13 @@
 
 ### Tech Stack
 
-Java 17+
-Spring Boot 3.x
-PostgreSQL
-JPA (Hibernate)
-JUnit 5 + Mockito
-Lombok
-SLF4J (Logging)
+1. Java 17+
+2. Spring Boot 3.x
+3. PostgreSQL
+4. JPA (Hibernate)
+5. JUnit 5 + Mockito
+6. Lombok
+7. SLF4J (Logging)
 
 ## Setup Instructions
 
@@ -32,7 +32,7 @@ SLF4J (Logging)
 4. Optional: Postman
 
 ### Clone the Repository
-[git clone https://github.com/your-username/los-backend.git](https://github.com/Smriti45/loan-origination-system)
+https://github.com/Smriti45/loan-origination-system.git
 
 ### PostgreSQL Setup
 
@@ -47,32 +47,6 @@ Username: postgres
 Password: your_password
 
 Test Connection -> Should say “Connected”
-
-### SQL Schema
-
-CREATE TABLE agents (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    phone VARCHAR(20) UNIQUE NOT NULL,
-    manager_id BIGINT,
-    FOREIGN KEY (manager_id) REFERENCES agents(id)
-);
-
-CREATE TABLE loans (
-    id SERIAL PRIMARY KEY,
-    loan_id VARCHAR(100) UNIQUE NOT NULL,
-    customer_name VARCHAR(255),
-    customer_phone VARCHAR(20),
-    loan_amount NUMERIC(15,2),
-    loan_type VARCHAR(50),
-    application_status VARCHAR(50),
-    created_at TIMESTAMP,
-    assigned_agent_id BIGINT,
-    FOREIGN KEY (assigned_agent_id) REFERENCES agents(id)
-);
-
-
-Insert Data into Tables
 
 ### Update application.properties
 
@@ -93,15 +67,20 @@ spring:
 
 mvn clean spring-boot:run
 
+Test Coverage is more 85%
+
 ## API Endpoints
 
-POST	/api/v1/loans	: Submit a loan
-PUT	/api/v1/agents/{agentId}/loans/{loanId}/decision	: Agent decision
-GET	/api/v1/loans/status-count	: Loan counts per status
-GET	/api/v1/loans?status=APPLIED&page=0&size=10	: Loans by status
-GET	/api/v1/loans/customers/top	: Top 3 customers
+1. Submit a loan : POST	/api/v1/loans	
+2. Agent decision : PUT	/api/v1/agents/{agentId}/loans/{loanId}/decision	
+3. Loan counts per status : GET	/api/v1/loans/status-count
+4. Loans by status :  GET	/api/v1/loans?status=APPLIED&page=0&size=10	
+5. Top 3 customers : GET	/api/v1/loans/customers/top	
 
 ## Postman Collection
 
+https://crimson-sunset-859222.postman.co/workspace/abc~6d835d20-7b0a-4a06-b80f-1d12533fa1e1/collection/20941754-f1857cbb-0a88-4983-b637-12b01d77b5fc?action=share&creator=20941754
 
+## Future Scopes
 
+TBU
