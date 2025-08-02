@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AgentServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">los</a> &gt; <a href="index.source.html" class="el_package">com.turno.los.service.impl</a> &gt; <span class="el_source">AgentServiceImpl.java</span></div><h1>AgentServiceImpl.java</h1><pre class="source lang-java linenums">package com.turno.los.service.impl;
+
+import com.turno.los.model.Agent;
+import com.turno.los.model.Loan;
+import com.turno.los.model.enums.ApplicationStatus;
+import com.turno.los.model.enums.DecisionType;
+import com.turno.los.repository.AgentRepository;
+import com.turno.los.repository.LoanRepository;
+import com.turno.los.service.AgentService;
+import com.turno.los.notification.NotificationService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+<span class="fc" id="L19">@Slf4j</span>
+public class AgentServiceImpl implements AgentService {
+    private final LoanRepository loanRepository;
+    private final AgentRepository agentRepository;
+    private final NotificationService notificationService;
+    @Override
+    public void assignAgentIfUnderReview(Loan loan) {
+<span class="pc bpc" id="L26" title="2 of 4 branches missed.">        if (loan.getApplicationStatus() == ApplicationStatus.UNDER_REVIEW &amp;&amp; loan.getAssignedAgent() == null) {</span>
+<span class="fc" id="L27">            List&lt;Agent&gt; available = agentRepository.findAvailableAgents();</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">            if (!available.isEmpty()) {</span>
+<span class="fc" id="L29">                Agent agent = available.get(0);</span>
+<span class="fc" id="L30">                loan.setAssignedAgent(agent);</span>
+<span class="fc" id="L31">                loanRepository.save(loan);</span>
+
+<span class="fc" id="L33">                notificationService.notifyAgentAssignment(agent.getName(), loan);</span>
+
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">                if (agent.getManager() != null) {</span>
+<span class="nc" id="L36">                    notificationService.notifyManager(agent.getManager().getName(), loan);</span>
+                }
+            }
+        }
+<span class="fc" id="L40">    }</span>
+
+    @Override
+    public String decideLoan(Long agentId, String loanId, DecisionType decision) {
+<span class="fc" id="L44">        Loan loan = loanRepository.findById(loanId)</span>
+<span class="pc" id="L45">                .orElseThrow(() -&gt; new RuntimeException(&quot;Loan not found&quot;));</span>
+
+<span class="pc bpc" id="L47" title="2 of 4 branches missed.">        if (loan.getAssignedAgent() == null || !loan.getAssignedAgent().getId().equals(agentId)) {</span>
+<span class="nc" id="L48">            throw new IllegalArgumentException(&quot;Loan not assigned to this agent&quot;);</span>
+        }
+
+<span class="pc bpc" id="L51" title="2 of 3 branches missed.">        switch (decision) {</span>
+<span class="fc" id="L52">            case APPROVE -&gt; loan.setApplicationStatus(ApplicationStatus.APPROVED_BY_AGENT);</span>
+<span class="nc" id="L53">            case REJECT -&gt; loan.setApplicationStatus(ApplicationStatus.REJECTED_BY_AGENT);</span>
+        }
+
+<span class="fc" id="L56">        loanRepository.save(loan);</span>
+<span class="fc" id="L57">        notificationService.notifyCustomerApproval(loan.getCustomerPhone(), loan);</span>
+
+<span class="fc" id="L59">        return &quot;Loan decision recorded: &quot; + decision;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

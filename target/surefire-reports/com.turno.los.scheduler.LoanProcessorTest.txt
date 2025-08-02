@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.turno.los.scheduler.LoanProcessorTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 48.25 s -- in com.turno.los.scheduler.LoanProcessorTest

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.turno.los.LosApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 27.37 s -- in com.turno.los.LosApplicationTests

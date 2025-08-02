@@ -1,0 +1,11 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+los,com.turno.los.scheduler,LoanProcessor,19,69,1,5,4,17,2,5,1,3
+los,com.turno.los.model.enums,ApplicationStatus,0,39,0,0,0,3,0,1,0,1
+los,com.turno.los.model.enums,LoanTypes,0,27,0,0,0,2,0,1,0,1
+los,com.turno.los.model.enums,DecisionType,0,15,0,0,0,2,0,1,0,1
+los,com.turno.los.notification.impl,MockNotificationService,0,28,0,0,0,8,0,5,0,5
+los,com.turno.los.service.impl,LoanServiceImpl,0,90,0,0,0,19,0,8,0,8
+los,com.turno.los.service.impl,AgentServiceImpl,20,81,8,7,3,18,9,3,1,3
+los,com.turno.los.controller,LoanController,0,21,0,0,0,4,0,4,0,4
+los,com.turno.los.controller,AgentController,0,9,0,0,0,1,0,1,0,1
+los,com.turno.los,LosApplication,5,3,0,0,2,1,1,1,1,1

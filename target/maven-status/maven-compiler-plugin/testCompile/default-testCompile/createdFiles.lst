@@ -1,0 +1,7 @@
+com\turno\los\service\impl\AgentServiceImplTest.class
+com\turno\los\LosApplicationTests.class
+com\turno\los\controller\LoanControllerTest.class
+com\turno\los\notification\impl\NotificationServiceTest.class
+com\turno\los\service\impl\LoanServiceTest.class
+com\turno\los\scheduler\LoanProcessorTest.class
+com\turno\los\controller\AgentControllerTest.class

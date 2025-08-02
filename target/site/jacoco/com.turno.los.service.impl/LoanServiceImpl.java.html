@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoanServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">los</a> &gt; <a href="index.source.html" class="el_package">com.turno.los.service.impl</a> &gt; <span class="el_source">LoanServiceImpl.java</span></div><h1>LoanServiceImpl.java</h1><pre class="source lang-java linenums">package com.turno.los.service.impl;
+
+import com.turno.los.dto.LoanRequestDTO;
+import com.turno.los.model.Loan;
+import com.turno.los.model.enums.ApplicationStatus;
+import com.turno.los.repository.LoanRepository;
+import com.turno.los.service.LoanService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.Pageable;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+<span class="fc" id="L22">@Slf4j</span>
+public class LoanServiceImpl implements LoanService {
+
+    private final LoanRepository loanRepository;
+    @Override
+    public Loan createLoan(LoanRequestDTO dto) {
+<span class="fc" id="L28">        Loan loan = Loan.builder()</span>
+<span class="fc" id="L29">                .loanId(dto.getLoanId())</span>
+<span class="fc" id="L30">                .customerName(dto.getCustomerName())</span>
+<span class="fc" id="L31">                .customerPhone(dto.getCustomerPhone())</span>
+<span class="fc" id="L32">                .loanAmount(dto.getLoanAmount())</span>
+<span class="fc" id="L33">                .loanType(dto.getLoanType())</span>
+<span class="fc" id="L34">                .applicationStatus(ApplicationStatus.APPLIED)</span>
+<span class="fc" id="L35">                .createdAt(LocalDateTime.now())</span>
+<span class="fc" id="L36">                .build();</span>
+
+<span class="fc" id="L38">        return loanRepository.save(loan);</span>
+    }
+
+    @Override
+    public Map&lt;ApplicationStatus, Long&gt; getLoanStatusCount() {
+<span class="fc" id="L43">        List&lt;Object[]&gt; result = loanRepository.countByStatus();</span>
+<span class="fc" id="L44">        return result.stream().collect(Collectors.toMap(</span>
+<span class="fc" id="L45">                r -&gt; (ApplicationStatus) r[0], r -&gt; (Long) r[1]</span>
+        ));
+    }
+
+    @Override
+    public Page&lt;Loan&gt; getLoansByStatus(ApplicationStatus status, int page, int size) {
+<span class="fc" id="L51">        return loanRepository.findByApplicationStatus(status, (Pageable) PageRequest.of(page, size));</span>
+    }
+
+    @Override
+    public List&lt;Map&lt;String, Object&gt;&gt; getTopCustomers() {
+<span class="fc" id="L56">        List&lt;Object[]&gt; results = loanRepository.findTopCustomers(</span>
+<span class="fc" id="L57">                List.of(ApplicationStatus.APPROVED_BY_SYSTEM, ApplicationStatus.APPROVED_BY_AGENT),</span>
+<span class="fc" id="L58">                (Pageable) PageRequest.of(0, 3)</span>
+        );
+<span class="fc" id="L60">        return results.stream().map(r -&gt; Map.of(&quot;customerName&quot;, r[0], &quot;loanCount&quot;, r[1])).collect(Collectors.toList());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
