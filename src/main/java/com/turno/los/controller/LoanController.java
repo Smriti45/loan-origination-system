@@ -4,6 +4,7 @@ import com.turno.los.dto.LoanRequestDTO;
 import com.turno.los.model.enums.*;
 import com.turno.los.model.Loan;
 import com.turno.los.service.LoanService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/loans")
-@RequiredArgsConstructor
 public class LoanController {
+    public LoanController(LoanService loanService) {
+        this.loanService = loanService;
+    }
+
     private final LoanService loanService;
     @PostMapping
-    public ResponseEntity<?> createLoan(@RequestBody LoanRequestDTO loanRequest) {
+    public ResponseEntity<?> createLoan( @Valid @RequestBody LoanRequestDTO loanRequest) {
         return ResponseEntity.ok(loanService.createLoan(loanRequest));
     }
 

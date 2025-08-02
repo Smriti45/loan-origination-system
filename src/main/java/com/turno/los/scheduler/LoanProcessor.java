@@ -17,9 +17,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class LoanProcessor {
+    public LoanProcessor(LoanRepository loanRepository, AgentService agentService, NotificationService notificationService) {
+        this.loanRepository = loanRepository;
+        this.agentService = agentService;
+        this.notificationService = notificationService;
+    }
+
     private final LoanRepository loanRepository;
     private final AgentService agentService;
     private final NotificationService notificationService;

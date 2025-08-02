@@ -15,6 +15,7 @@ import java.util.List;
 public interface LoanRepository extends JpaRepository<Loan, String> {
     List<Loan> findByApplicationStatus(ApplicationStatus status);
     Page<Loan> findByApplicationStatus(ApplicationStatus status, Pageable pageable);
+    boolean existsByLoanId(String loanId);
 
     @Query("SELECT l.customerName, COUNT(l) FROM Loan l WHERE l.applicationStatus IN :statuses GROUP BY l.customerName ORDER BY COUNT(l) DESC")
     List<Object[]> findTopCustomers(@Param("statuses") List<ApplicationStatus> statuses, Pageable pageable);

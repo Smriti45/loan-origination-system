@@ -15,10 +15,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class AgentServiceImpl implements AgentService {
     private final LoanRepository loanRepository;
+
+    public AgentServiceImpl(LoanRepository loanRepository, AgentRepository agentRepository, NotificationService notificationService) {
+        this.loanRepository = loanRepository;
+        this.agentRepository = agentRepository;
+        this.notificationService = notificationService;
+    }
+
     private final AgentRepository agentRepository;
     private final NotificationService notificationService;
     @Override

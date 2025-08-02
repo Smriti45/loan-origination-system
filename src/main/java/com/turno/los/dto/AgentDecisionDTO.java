@@ -5,5 +5,13 @@ import lombok.Data;
 
 @Data
 public class AgentDecisionDTO {
+    public DecisionType getDecision() {
+        return decision;
+    }
+
+    public void setDecision(DecisionType decision) {
+        this.decision = decision;
+    }
+
     private DecisionType decision;
 }

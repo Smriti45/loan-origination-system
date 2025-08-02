@@ -1,6 +1,7 @@
 package com.turno.los.service.impl;
 
 import com.turno.los.dto.LoanRequestDTO;
+import com.turno.los.exception.DuplicateResourceException;
 import com.turno.los.model.Loan;
 import com.turno.los.model.enums.ApplicationStatus;
 import com.turno.los.repository.LoanRepository;
@@ -18,22 +19,28 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class LoanServiceImpl implements LoanService {
+
+    public LoanServiceImpl(LoanRepository loanRepository) {
+        this.loanRepository = loanRepository;
+    }
 
     private final LoanRepository loanRepository;
     @Override
     public Loan createLoan(LoanRequestDTO dto) {
-        Loan loan = Loan.builder()
-                .loanId(dto.getLoanId())
-                .customerName(dto.getCustomerName())
-                .customerPhone(dto.getCustomerPhone())
-                .loanAmount(dto.getLoanAmount())
-                .loanType(dto.getLoanType())
-                .applicationStatus(ApplicationStatus.APPLIED)
-                .createdAt(LocalDateTime.now())
-                .build();
+        if (loanRepository.existsByLoanId(dto.getLoanId())) {
+            throw new DuplicateResourceException("Loan ID already exists.");
+        }
+
+        Loan loan = new Loan();
+        loan.setLoanId(dto.getLoanId());
+        loan.setCustomerName(dto.getCustomerName());
+        loan.setCustomerPhone(dto.getCustomerPhone());
+        loan.setLoanAmount(dto.getLoanAmount());
+        loan.setLoanType(dto.getLoanType());
+        loan.setApplicationStatus(ApplicationStatus.APPLIED);
+        loan.setCreatedAt(LocalDateTime.now());
 
         return loanRepository.save(loan);
     }
