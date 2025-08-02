@@ -50,6 +50,7 @@ CREATE DATABASE postgres; -- use proper name
 
 ### Update application.properties
 
+---
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
