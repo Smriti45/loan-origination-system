@@ -40,13 +40,13 @@ https://github.com/Smriti45/loan-origination-system.git
 CREATE DATABASE postgres; -- use proper name
 
 -- New Connection
-Host: localhost
-Port: 5432
-Database: postgres
-Username: postgres
-Password: your_password
+1. Host: localhost
+2. Port: 5432
+3. Database: postgres
+4. Username: postgres
+5. Password: your_password
 
-Test Connection -> Should say “Connected”
+6. Test Connection -> Should say “Connected”
 
 ### Update application.properties
 
